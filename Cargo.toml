@@ -1,0 +1,19 @@
+[package]
+name = "quick-bool"
+version = "0.1.0"
+edition = "2024"
+description = "A lock-free boolean implementation using atomic operations"
+license = "MIT"
+repository = "https://github.com/jdx/quick-bool"
+keywords = ["atomic", "boolean", "lock-free", "performance"]
+categories = ["concurrency"]
+authors = ["jdx"]
+
+[dependencies]
+
+[dev-dependencies]
+criterion = "0.5"
+
+[[bench]]
+name = "benchmarks"
+harness = false

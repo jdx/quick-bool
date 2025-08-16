@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+#MISE description="Run benchmarks and update README with results and Mermaid charts"
+#USAGE flag "--quick"
+if [ "${usage_quick:-false}" = "true" ]; then
+    echo "Running benchmarks with optimized settings..."
+    RUSTFLAGS="-C target-cpu=native" cargo +nightly bench --bench benchmarks --profile release --timings=json -Zunstable-options -- --quick --verbose
+else
+    echo "Running benchmarks with development settings (fast, fewer samples)..."
+    RUSTFLAGS="-C target-cpu=native" cargo +nightly bench --bench benchmarks --profile release --timings=json -Zunstable-options -- --verbose
+fi
+
+echo "Generating Mermaid performance charts from timing data..."
+node scripts/generate-mermaid-charts.js
+
+echo "Updating README with benchmark results..."
+./scripts/update-readme-with-benchmarks.sh
